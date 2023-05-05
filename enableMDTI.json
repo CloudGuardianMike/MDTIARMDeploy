@@ -1,0 +1,120 @@
+/* 
+AUTHOR: Michael Towey
+Company: CloudGuard
+Special Thanks: Jose Lazaro Pinos
+*/
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataConnectorsKind": {
+            "type": "array",
+            "defaultValue": ["MicrosoftThreatIntelligence"],
+            "metadata": {
+                "description": "The kind of data connectors to enable"
+            }
+        },
+
+        "workspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the Log Analytics workspace used to aggregate data"
+            }
+        },
+        "tenantId": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure AD tenant ID"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "baseTime": {
+            "type": "string",
+            "defaultValue": "[utcNow('u')]"
+          },
+          "lookBackPeriod":{
+            "type": "string",
+            "allowedValues": [
+            "-P30D",
+            "-P7D",
+            "all"
+            ],
+            "defaultValue": "-P30D"
+          }
+    },
+    "variables": {
+        "threatIntelligenceName": "[concat('ti', uniqueString(resourceGroup().id))]"
+    },
+    "resources": [
+         
+        {
+			"condition": "[contains(parameters('lookBackPeriod'), '-P30D')]",
+            "type": "Microsoft.OperationalInsights/workspaces/providers/dataConnectors",
+            "apiVersion": "2023-02-01-preview",
+            "location": "[parameters('location')]",
+            "name": "[concat(parameters('workspaceName'),'/Microsoft.SecurityInsights/',variables('threatIntelligenceName'))]",
+            "kind": "MicrosoftThreatIntelligence",
+            "properties": {
+                "dataTypes": {
+                    "bingSafetyPhishingURL": {
+                        "lookbackPeriod":"[dateTimeAdd(parameters('baseTime'), parameters('lookBackPeriod'))]",
+                        "state": "Enabled"
+                    },
+                    "microsoftEmergingThreatFeed": {
+                        "lookbackPeriod":"[dateTimeAdd(parameters('baseTime'), parameters('lookBackPeriod'))]",
+                        "state": "Enabled"
+                    }
+                },
+                "tenantId": "[parameters('tenantId')]"
+            }
+        },
+         {
+			"condition": "[contains(parameters('lookBackPeriod'), '-P7D')]",
+            "type": "Microsoft.OperationalInsights/workspaces/providers/dataConnectors",
+            "apiVersion": "2023-02-01-preview",
+            "location": "[parameters('location')]",
+            "name": "[concat(parameters('workspaceName'),'/Microsoft.SecurityInsights/',variables('threatIntelligenceName'))]",
+            "kind": "MicrosoftThreatIntelligence",
+            "properties": {
+                "dataTypes": {
+                    "bingSafetyPhishingURL": {
+                        "lookbackPeriod":"[dateTimeAdd(parameters('baseTime'), parameters('lookBackPeriod'))]",
+                        "state": "Enabled"
+                    },
+                    "microsoftEmergingThreatFeed": {
+                        "lookbackPeriod":"[dateTimeAdd(parameters('baseTime'), parameters('lookBackPeriod'))]",
+                        "state": "Enabled"
+                    }
+                },
+                "tenantId": "[parameters('tenantId')]"
+            }
+        },
+        {
+			"condition": "[contains(parameters('lookBackPeriod'), 'all')]",
+            "type": "Microsoft.OperationalInsights/workspaces/providers/dataConnectors",
+            "apiVersion": "2023-02-01-preview",
+            "location": "[parameters('location')]",
+            "name": "[concat(parameters('workspaceName'),'/Microsoft.SecurityInsights/',variables('threatIntelligenceName'))]",
+            "kind": "MicrosoftThreatIntelligence",
+            "properties": {
+                "dataTypes": {
+                    "bingSafetyPhishingURL": {
+                        "lookbackPeriod":"all",
+                        "state": "Enabled"
+                    },
+                    "microsoftEmergingThreatFeed": {
+                        "lookbackPeriod":"all",
+                        "state": "Enabled"
+                    }
+                },
+                "tenantId": "[parameters('tenantId')]"
+            }
+        }
+    ]
+}
