@@ -18,3 +18,6 @@ If you want to control when the lookback works from this value may be worth whil
 
 - lookBackPeriod - Defines how long you wish to ingest indicators for as a convenient drop down(All/30 Days/7 Days)
 
+If you want a quick Deploy to azure option you can follow the button below:
+
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FCloudGuardianMike%2FMDTIARMDeploy%2Fmain%2FenableMDTI.json)
