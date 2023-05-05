@@ -1,5 +1,4 @@
-# MDTIARMDeploy
-Microsoft Defender Threat Intelligence ARM template.
+# Deploy Microsoft Defender Threat Intelligence via ARM template
 
 Deploy this to begin ingesting the threat intelligence indicators of MDTI; official documentation on this can be found here: https://learn.microsoft.com/en-us/azure/templates/microsoft.securityinsights/2023-02-01-preview/dataconnectors?pivots=deployment-language-arm-template
 and 
