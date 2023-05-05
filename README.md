@@ -9,15 +9,12 @@ and with a really great video into how this product can be utilised found here: 
 
 I've put together a basic arm template which takes following key inputs;
 
-- Location
-Which location your environment which you wish to deploy the TI indicators to is based in
+- Location - Which location your environment which you wish to deploy the TI indicators to is based in
 
-- Subscription/Tenant/Workspace Information/Location of Workspace
-Basic information about your azure environment
+- Subscription/Tenant/Workspace Information/Location of Workspace - Basic information about your azure environment
 
 - Base Time - Auto applied in code with utcNow()
 If you want to control when the lookback works from this value may be worth while editing. I've left it in as a parameter for this reason.
 
-- lookBackPeriod
-Defines how long you wish to ingest indicators for as a convenient drop down(All/30 Days/7 Days)
+- lookBackPeriod - Defines how long you wish to ingest indicators for as a convenient drop down(All/30 Days/7 Days)
 
